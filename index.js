@@ -313,15 +313,41 @@ function searchString(str, subtext){
     return result.length;
 }
 
-function stringHandsSearch(str, subtext){
-    for(let i = 0; i < str.length; i++){
-        if(str[i] == subtext){
-            
+function findSubstring(text, pattern){
+    let res = -1;
+    let pf = getPrefix(pattern);
+    let index = 0;
+    for(let i = 0; i < text.length; i++){
+        while(index > 0 && pattern[index] != text[i]){
+            index = pf[index - 1];
+        }
+        if(pattern[index] == text[i]){
+             index++;
+        }
+        if(index == pattern.length){
+            return res = i - index + 1;
         }
     }
+    return res;
+}
+
+function getPrefix(text){
+    let result = new Array(text.length);
+    result[0] = 0;
+    let index = 0;
+
+    for(let i = 1; i < text.length; i++){
+        while(index >= 0 && text[index] != text[i]){
+            index--;
+        }
+        index++;
+        result[i] = index;
+    }
+
+    return result;
 }
 console.log(searchString(str13, "er"));
-console.log(stringHandsSearch(str13, "er"));
+console.log(findSubstring(str13, "fd"));
 
 //Task 14 
 
