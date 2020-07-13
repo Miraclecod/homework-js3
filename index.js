@@ -314,22 +314,37 @@ function searchString(str, subtext){
 }
 
 function findSubstring(text, pattern){
-    let res = -1;
+    let res = 0;
+    let count = 0;
+    let str = text;
+
+    do {
+        let startIndex = res;
+        str = '';
+    for(let j = startIndex; j < text.length; j++){
+        str += text[j];
+    }
+
     let pf = getPrefix(pattern);
     let index = 0;
-    for(let i = 0; i < text.length; i++){
-        while(index > 0 && pattern[index] != text[i]){
+    for(let i = 0; i < str.length; i++){
+        while(index > 0 && pattern[index] != str[i]){
             index = pf[index - 1];
         }
-        if(pattern[index] == text[i]){
-             index++;
+        if(pattern[index] == str[i]){
+        index++;
         }
         if(index == pattern.length){
-            return res = i - index + 1;
+            count++;
+            res = i - index + pattern.length;
+        }else{
+            res = 0;
         }
     }
-    return res;
-}
+    } while (res != 0);
+
+    return count;
+    }
 
 function getPrefix(text){
     let result = new Array(text.length);
@@ -347,7 +362,7 @@ function getPrefix(text){
     return result;
 }
 console.log(searchString(str13, "er"));
-console.log(findSubstring(str13, "fd"));
+console.log(findSubstring(str13, "er"));
 
 //Task 14 
 
